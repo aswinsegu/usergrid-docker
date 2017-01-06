@@ -34,7 +34,7 @@ end
 
 Vagrant.configure("2") do |config|
   config.vm.box = "coreos-%s" % $update_channel
-  config.vm.box_version = ">= 308.0.1"
+  #config.vm.box_version = ">= 308.0.1"
   config.vm.box_url = "http://%s.release.core-os.net/amd64-usr/current/coreos_production_vagrant.json" % $update_channel
 
   config.vm.provider :vmware_fusion do |vb, override|
@@ -96,7 +96,7 @@ Vagrant.configure("2") do |config|
       # config.vm.network :private_network, ip: ip
 
       # Public networking with static IPs
-      ip = "192.168.1.34"
+      ip = "127.0.0.1"
       config.vm.network :public_network, ip: ip
       config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: false # usergrid http api
 
@@ -108,7 +108,7 @@ Vagrant.configure("2") do |config|
       # config.vm.synced_folder ".", "/home/core/share", id: "core", :nfs => true, :mount_options => ['nolock,vers=3,udp']
 
       # Run provision script
-      config.vm.provision :shell, :path => "provision/provision.sh", :args => ip
+      config.vm.provision :shell, :path => "provision/provision.sh", :args => [ip, "usergrid", "local", "admin"]
     end
   end
 end
